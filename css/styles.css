@@ -250,6 +250,8 @@ a.custom-card:hover {
   transition: 0.3s;
   box-shadow: inset 5px 5px 10px #a9a9aa77,
               inset -5px -5px 10px #ffffff7e;
+  margin-bottom: 10px;
+  margin-top: 10px;
 }
 
 .inputLogin:hover {
@@ -318,6 +320,7 @@ a.custom-card:hover {
   transition: all .3s;
   box-shadow: 6px 6px 12px #c5c5c5,
               -6px -6px 12px #ffffff;
+  margin-top: 15px;
 }
 
 .buttonNeuro:hover {
