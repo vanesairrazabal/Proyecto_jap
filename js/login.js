@@ -29,3 +29,7 @@ function validarFormulario(evento) {
     window.location.href = 'index1.html';
   }
 }
+
+function handleCredentialResponse() {
+  window.location.href = 'index1.html';
+}

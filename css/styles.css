@@ -339,3 +339,7 @@ a.custom-card:hover {
   box-shadow: 4px 4px 12px #c5c5c5,
               -4px -4px 12px #ffffff;
 }
+
+#g_id_onload {
+  margin-top: 20px;
+}
