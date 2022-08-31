@@ -26,10 +26,26 @@ function validarFormulario(evento) {
     error.innerHTML = '<p>' + mensajesDeError.join(' , ') + '</p>'
   }
   else {
+    localStorage.setItem("usuario", mail);
     window.location.href = 'index1.html';
   }
 }
 
-function handleCredentialResponse() {
+function handleCredentialResponse(respuesta) {
+  // respuesta es un json que hay que procesarlo
+  // decodeJwtResponse() is a custom function defined by you
+  // to decode the credential response.
+
+  console.log(respuesta.credential)
+  
+  const responsePayload = JSON.parse(decodeJwtResponse(respuesta.credential));
+
+  localStorage.setItem("usuario", responsePayload.email);
   window.location.href = 'index1.html';
+
+}
+
+function decodeJwtResponse(credencial) {
+  let payload = atob(credencial.split('.')[1]);
+  return payload;
 }

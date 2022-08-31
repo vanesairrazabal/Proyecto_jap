@@ -6,22 +6,22 @@ document.addEventListener("DOMContentLoaded", function(e){
     getJSONData(PRODUCTS_URL + idCategoria + '.json').then(function(resultObj){
         if (resultObj.status === "ok"){
             currentProductsArray = resultObj.data.products
-            showProductsList(idCategoria)
+            showProductsList()
         }
     });
     
 });
 
-function setProdID(id) {
+function setProdIDd(id) {
     localStorage.setItem("prodID", id);
     window.location = "product-info.html"
 }
 
-function showProductsList(idCategoria){
+function showProductsList() {
 
     let htmlContentToAppend = "";
 
-    if(idCategoria==='101'){
+    if(currentProductsArray.length > 0 ){
 
         for(let i = 0; i < currentProductsArray.length; i++){
             let product = currentProductsArray[i];
@@ -65,10 +65,11 @@ function showProductsList(idCategoria){
         }
     }else {
         htmlContentToAppend +=`
-        <div class="alert alert-danger text-center" role="alert">
-            <h4 class="alert-heading">Funcionalidad en desarrollo</h4>
+        <div class="list-group-item cursor-inactive">
+            <h4 class="mb-1">Categoría sin productos</h4>
         </div>
         `
         document.getElementById("prod-list-container").innerHTML = htmlContentToAppend;
     }
 }
+
