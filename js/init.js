@@ -47,8 +47,6 @@ let getJSONData = function(url){
     });
 }
 
-document.addEventListener("DOMContentLoaded", function(){
-  document.getElementById("logout").addEventListener("click", function() {
-      cerrar()
-  });
+document.addEventListener("DOMContentLoaded", function() {
+  document.getElementById("logout").addEventListener('click', cerrar);
 });

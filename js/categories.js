@@ -108,6 +108,8 @@ document.addEventListener("DOMContentLoaded", function(e){
         sortAndShowCategories(ORDER_BY_PROD_COUNT);
     });
 
+
+    // Filtrado
     document.getElementById("clearRangeFilter").addEventListener("click", function(){
         document.getElementById("rangeFilterCountMin").value = "";
         document.getElementById("rangeFilterCountMax").value = "";
