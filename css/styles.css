@@ -349,3 +349,11 @@ a.custom-card:hover {
 #g_id_onload {
   margin-top: 20px;
 }
+
+#buscar {
+  width: 500px;
+}
+
+.ocultar {
+  display: none;
+}

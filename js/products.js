@@ -65,17 +65,17 @@ function showProductsList() {
             ((maxPrice == undefined) || (maxPrice != undefined && parseInt(product.cost) <= maxPrice))){
 
             htmlContentToAppend += `
-                <div onclick="setProdID(${product.id})" class="list-group-item list-group-item-action cursor-active">
+                <div onclick="setProdID(${product.id})" class="list-group-item list-group-item-action cursor-active producto">
                     <div class="row">
                         <div class="col-3">
                             <img src="${product.image}" alt="${product.description}" class="img-thumbnail">
                         </div>
                         <div class="col">
                             <div class="d-flex w-100 justify-content-between">
-                                <h4 class="mb-1">${product.name}</h4>
+                                <h4 class="mb-1 nombre">${product.name}</h4>
                                 <small class="text-muted">${product.soldCount} vendidos</small>
                             </div>
-                            <p class="mb-1">${product.description}</p>
+                            <p class="mb-1 descripcion">${product.description}</p>
                             <div class="d-flex w-100 justify-content-between">
                                 <small class="text-muted"></small>
                                 <h4 class="mb-1">${product.currency} ${product.cost}</h4>
@@ -160,3 +160,22 @@ document.getElementById("rangeFilterPrice").addEventListener("click", function()
     showProductsList();
 });
 
+document.getElementById('buscar').addEventListener('keyup', (e)=>{
+    if (e.key === "Escape") e.target.value = ""
+    let info = ""
+  
+    document.querySelectorAll(".producto").forEach(prod =>{
+
+        prod.querySelectorAll(".nombre").forEach(elemento =>{
+            info = elemento.textContent; 
+        })
+
+        prod.querySelectorAll(".descripcion").forEach(elemento =>{          
+            info += elemento.textContent; 
+        })
+
+        info.toLowerCase().includes(e.target.value.toLowerCase())
+                ?prod.classList.remove("ocultar")
+                :prod.classList.add("ocultar") 
+    })
+});
