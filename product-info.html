@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
   <link href="css/font-awesome.min.css" rel="stylesheet">
   <link href="css/bootstrap.min.css" rel="stylesheet">
+  <!--link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"-->
   <link href="css/styles.css" rel="stylesheet">
 </head>
 
@@ -44,8 +45,37 @@
   </nav>
   <main>
     <div class="container">
-      <div class="alert alert-danger text-center" role="alert">
-        <h4 class="alert-heading">Funcionalidad en desarrollo</h4>
+      <div class="row">
+        <div class="" id="ficha-container">
+        </div>
+        <div class="mt-4 mb-4" id="ficha-container2">
+        </div>
+        <div class="" id="ficha3"> 
+          <p>Tu opinion:</p>
+          <textarea id="txtComentario" rows="3" cols="50"></textarea>
+          <p>Puntuacion</p>
+          <!--input type="number" id="select"-->
+          <form>
+            <p class="clasificacion">
+              <input id="radio1" type="radio" name="estrellas" value="5">
+              <label for="radio1">★</label>
+              <input id="radio2" type="radio" name="estrellas" value="4">
+              <label for="radio2">★</label>
+              <input id="radio3" type="radio" name="estrellas" value="3">
+              <label for="radio3">★</label>
+              <input id="radio4" type="radio" name="estrellas" value="2">
+              <label for="radio4">★</label>
+              <input id="radio5" type="radio" name="estrellas" value="1">
+              <label for="radio5">★</label>
+            </p>
+            <div class="d-flex w-100 justify-content-between">
+              <div>
+                <button id="btnComment" class="btn btn-success"> Enviar</button>
+              </div>
+            </div>
+          </form>
+          
+        </div>
       </div>
     </div>
   </main>
