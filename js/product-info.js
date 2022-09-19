@@ -2,6 +2,7 @@
 let producto = undefined
 let comentariosProducto = []
 let localComment = []
+let productosRelacionados = []
 
 document.addEventListener("DOMContentLoaded", function(e){
     let idProducto = localStorage.getItem("prodID")
@@ -19,6 +20,7 @@ document.addEventListener("DOMContentLoaded", function(e){
         if (resultObj.status === "ok"){
             comentariosProducto = resultObj.data
             mostrarComentarios(comentariosProducto)
+            mostrarRelacionados(productosRelacionados)
         }
     });
 });
@@ -87,6 +89,28 @@ function loadNavImagesButton(prod) {
     }
     return navButton;
 };
+
+/*function mostrarRelacionados(){    
+let htmlContentToAppend = ""
+
+htmlContentToAppend += `
+<div onclick="" class="list-group-item list-group-item-action mb-2">
+    <div class="row">
+        <div class="col">
+            <div class="d-flex w-100 justify-content-between">
+                <div>
+                    ${relatedProducts.name}
+                    ${relatedProducts.description}
+                </div>       
+            </div>
+        </div>
+    </div>
+</div>`
+console.log(relatedProducts.name)
+document.getElementById("ficha-container3").innerHTML = htmlContentToAppend;
+}*/
+
+
 
 function mostrarComentarios(comentariosProducto) {
     let htmlContentToAppend = "";
@@ -166,14 +190,14 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 
 function enviarComentario() {
-    try {
-
+    
+          try {
         const comentarioNuevo = { 
-            dateTime: new Date(), 
+            dateTime: moment().format('YYYY-MM-DD HH:mm:ss'), 
             description: document.getElementById("txtComentario").value, 
             product: localStorage.getItem("prodID"), 
-            score: 4, 
-            user: localStorage.getItem("usuario") 
+            score: 4,
+            user: localStorage.getItem("usuario"), 
         }
         if (Array.isArray(localComment)) {
             localComment.push(comentarioNuevo)
@@ -182,4 +206,5 @@ function enviarComentario() {
     } catch (error) {
         alert(error)
     }
+    
 }
