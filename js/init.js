@@ -7,7 +7,28 @@ const CART_INFO_URL = "https://japceibal.github.io/emercado-api/user_cart/";
 const CART_BUY_URL = "https://japceibal.github.io/emercado-api/cart/buy.json";
 const EXT_TYPE = ".json";
 
-document.getElementById("link-perfil").text = localStorage.getItem("usuario");
+let usuario = localStorage.getItem("usuario");
+
+function setProdID(id) {
+  localStorage.setItem("prodID", id);
+  window.location = "product-info.html"
+}
+
+function cargarMenu() {
+  console.log('estoy cargando el menú, en teoría!');
+  let htmlContentToAppend = `
+    <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+    ` + usuario + `
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+    <li><a id="link-carrito" class="dropdown-item" href="cart.html">Mi Carrito</a></li>
+    <li><a id="link-perfil" class="dropdown-item" href="my-profile.html">Mi Perfil</a></li>
+    <li><a id="link-logout" class="dropdown-item" href="#">Cerrar Sesión</a></li>
+    </ul>
+    `
+    document.getElementById("perfil").innerHTML = htmlContentToAppend;
+    document.getElementById("link-logout").addEventListener('click', () => cerrar());
+}
 
 function cerrar() {
   localStorage.removeItem("usuario")
@@ -48,5 +69,5 @@ let getJSONData = function(url){
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-  document.getElementById("logout").addEventListener('click', cerrar);
+  cargarMenu()
 });
