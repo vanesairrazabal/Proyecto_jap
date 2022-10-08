@@ -215,7 +215,7 @@ a.custom-card:hover {
   background-color: rgb(248, 249, 250);
   border-radius: 10px;
   text-shadow: 1px 1px 2px grey;
-  
+
 }
 
 /* From uiverse.io by @adamgiebl */
@@ -227,15 +227,15 @@ a.custom-card:hover {
   border-radius: 10px;
   background-color: rgb(248, 249, 250);
   box-shadow: 15px 15px 30px #bebebe,
-              -15px -15px 30px #ffffff;
-  display:flex;
+    -15px -15px 30px #ffffff;
+  display: flex;
   justify-content: center;
   flex-direction: column;
 }
 
 .cardNeuro:hover {
   box-shadow: 0 8px 50px #23232333;
- }
+}
 
 #formLogin {
   display: flex;
@@ -254,7 +254,7 @@ a.custom-card:hover {
     -20px -20px 60px #ffffff;
   transition: 0.3s;
   box-shadow: inset 5px 5px 10px #a9a9aa77,
-              inset -5px -5px 10px #ffffff7e;
+    inset -5px -5px 10px #ffffff7e;
   margin-bottom: 10px;
   margin-top: 10px;
 }
@@ -267,9 +267,10 @@ a.custom-card:hover {
   outline-color: #e8e8e8;
   background: #e8e8e8;
   box-shadow: inset 20px 20px 60px #c5c5c5,
-     inset -20px -20px 60px #ffffff;
+    inset -20px -20px 60px #ffffff;
   transition: 0.3s;
 }
+
 #logout {
   height: 20px;
   padding: 0px 5px;
@@ -330,7 +331,7 @@ a.custom-card:hover {
   border: 1px solid #e8e8e8;
   transition: all .3s;
   box-shadow: 6px 6px 12px #c5c5c5,
-              -6px -6px 12px #ffffff;
+    -6px -6px 12px #ffffff;
   margin-top: 15px;
 }
 
@@ -345,10 +346,10 @@ a.custom-card:hover {
   animation: storm1261 0.7s ease-in-out both;
   animation-delay: 0.06s;
 }
- 
+
 .buttonNeuro:active {
   box-shadow: 4px 4px 12px #c5c5c5,
-              -4px -4px 12px #ffffff;
+    -4px -4px 12px #ffffff;
 }
 
 #g_id_onload {
@@ -372,105 +373,106 @@ a.custom-card:hover {
   background: #f5f5f5;
   position: relative;
   overflow: visible;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   border-radius: 10px;
- }
- 
- .cardProduct-img {
+}
+
+.cardProduct-img {
   background-color: #e8e8e8;
   height: 40%;
   width: 100%;
   border-radius: .5rem;
   transition: .3s ease;
- }
- 
- .cardProduct-info {
+}
+
+.cardProduct-info {
   padding-top: 3%;
   text-align: center;
   text-shadow: 1px 1px 2px grey;
- }
- 
- svg {
+}
+
+svg {
   width: 20px;
   height: 20px;
- }
- 
- .cardProduct-footer {
+}
+
+.cardProduct-footer {
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-top: 1px solid #ddd;
   padding: 20px 20px;
- }
- 
- .cardProduct-title {
+}
+
+.cardProduct-title {
   font-weight: 900;
   font-size: 1.4em;
   line-height: 1.5;
- }
- 
- .cardProduct-body {
+}
+
+.cardProduct-body {
   font-size: 1.0em;
   padding-bottom: 10px;
- }
- 
- .cardProduct-button {
+}
+
+.cardProduct-button {
   border: 1px solid #252525;
   display: flex;
   padding: .3em;
   cursor: pointer;
   border-radius: 50px;
   transition: .3s ease-in-out;
- }
- 
- .cardProduct-img:hover {
+}
+
+.cardProduct-img:hover {
   /*transform: translateY(-25%);*/
   box-shadow: rgba(226, 196, 63, 0.25) 0px 13px 47px -5px, rgba(180, 71, 71, 0.3) 0px 8px 16px -8px;
- }
- 
- .cardProduct-button:hover {
+}
+
+.cardProduct-button:hover {
   border: 1px solid #ffcaa6;
   background-color: #ffcaa6;
- }
- 
- .price {
-  color:rgba(17, 11, 182, 0.573);
+}
+
+.price {
+  color: rgba(17, 11, 182, 0.573);
   font-size: 1.6em;
- }
+}
 
 
- /* Slider style */
-.containerSlider{
+/* Slider style */
+.containerSlider {
   margin: auto;
   width: 500px;
   padding: 30px;
 }
 
-ul, li {
-    padding: 0;
-    margin: 0;
-    list-style: none;
+ul,
+li {
+  padding: 0;
+  margin: 0;
+  list-style: none;
 }
 
-ul.slider{
+ul.slider {
   position: relative;
   width: 100%;
   height: 100%;
 }
 
 ul.slider li {
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    opacity: 0;
-    width: inherit;
-    height: inherit;
-    transition: opacity .5s;
-    background:#fff;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  opacity: 0;
+  width: inherit;
+  height: inherit;
+  transition: opacity .5s;
+  background: #fff;
 }
 
-ul.slider li img{
+ul.slider li img {
   width: 100%;
   height: 250px;
   object-fit: cover;
@@ -478,25 +480,25 @@ ul.slider li img{
 }
 
 ul.slider li:first-child {
-    opacity: 1;
+  opacity: 1;
 }
 
 ul.slider li:target {
-    opacity: 1;
+  opacity: 1;
 }
 
-.menu{
+.menu {
   text-align: center;
   margin-top: 200px;
 }
 
-.menu li{
+.menu li {
   display: inline-block;
   text-align: center;
   margin-top: 60px;
 }
 
-.menu li a{
+.menu li a {
   display: inline-block;
   color: white;
   text-decoration: none;
@@ -514,19 +516,19 @@ ul.slider li:target {
 }
 
 .diseño_user {
-  font-family:'Raleway', serif !important;
+  font-family: 'Raleway', serif !important;
   font-size: medium;
-  color:#949191;
+  color: #949191;
 }
 
 .design_date {
-  font-family:'Raleway', serif !important;
-  font-size:small;
-  color:#949191;
+  font-family: 'Raleway', serif !important;
+  font-size: small;
+  color: #949191;
 }
 
 .checked {
- color: orange;
+  color: orange;
 }
 
 #ficha3 {
@@ -566,20 +568,20 @@ label {
 }
 
 label:hover,
-label:hover ~ label {
+label:hover~label {
   color: orange;
 }
 
-input[type="radio"]:checked ~ label {
+input[type="radio"]:checked~label {
   color: orange;
 }
 
 #relacionados {
   display: contents;
-  
+
 }
 
-.name{
+.name {
   color: rgb(189, 189, 189);
   text-shadow: 1px 1px 2px black;
   font-weight: 600;
@@ -593,7 +595,7 @@ input[type="radio"]:checked ~ label {
   display: flex;
   flex-direction: column;
   align-items: start;
-  justify-content: start;
+  justify-content: center;
 }
 
 .center {
@@ -607,10 +609,10 @@ input[type="radio"]:checked ~ label {
   display: flex;
   flex-direction: column;
   align-items: end;
-  justify-content: end;
+  justify-content: center;
 }
 
 .shadow {
   box-shadow: 15px 15px 15px #bebebe,
-              0px 0px 5px #b7b7b7;
+    0px 0px 5px #b7b7b7;
 }

@@ -26,7 +26,28 @@ document.addEventListener("DOMContentLoaded", function(e){
     });
 });
 
-function agregarProducto(){
+function agregarProducto(producto){
+   let carrito = obtenerCarrito() // o[]
+   let productoNuevo = {
+    id: producto.id,
+    name: producto.name,
+    count: 1, 
+    unitCost: producto.cost,
+    currency: producto.currency,
+    image: producto.images[0],
+    totalAmount: producto.cost
+   }
+
+   let prodEncontradoEnCarrito = carrito.find(prod => prod.id == productoNuevo.id)
+   if(prodEncontradoEnCarrito == undefined) {
+    carrito.push(productoNuevo)
+   }
+   else {
+    
+    prodEncontradoEnCarrito.count += 1
+   }
+    
+   guardarCarrito(carrito)
    location.href= 'cart.html';
 }
 
@@ -85,7 +106,7 @@ function mostrarDetalles(prod) {
 
     document.getElementById("ficha-container").innerHTML = htmlContentToAppend;
     document.getElementById("btn-carrito").addEventListener('click', function(){
-        agregarProducto()
+        agregarProducto(prod)
     })
     
 };
@@ -180,12 +201,19 @@ document.addEventListener("DOMContentLoaded", function() {
 
 function enviarComentario() {
     
-          try {
+    try {
+        let rate = 0
+        let starSelection = Array.from(document.getElementsByName('estrellas')).filter((radio)=> radio.checked == true)[0]
+        
+        if(starSelection != undefined) {
+            rate = starSelection.value
+        }
+      
         const comentarioNuevo = { 
             dateTime: moment().format('YYYY-MM-DD HH:mm:ss'), 
             description: document.getElementById("txtComentario").value, 
             product: localStorage.getItem("prodID"), 
-            score: 4,
+            score: rate,
             user: localStorage.getItem("usuario"), 
         }
         if (Array.isArray(localComment)) {

@@ -26,48 +26,65 @@ function cargarMenu() {
     <li><a id="link-logout" class="dropdown-item" href="#">Cerrar Sesión</a></li>
     </ul>
     `
-    document.getElementById("perfil").innerHTML = htmlContentToAppend;
-    document.getElementById("link-logout").addEventListener('click', () => cerrar());
+  document.getElementById("perfil").innerHTML = htmlContentToAppend;
+  document.getElementById("link-logout").addEventListener('click', () => cerrar());
 }
 
 function cerrar() {
-  localStorage.removeItem("usuario")
+  //localStorage.removeItem("usuario")
+  localStorage.clear();
   window.location.href = 'index.html'
 }
 
-let showSpinner = function(){
+let showSpinner = function () {
   document.getElementById("spinner-wrapper").style.display = "block";
 }
 
-let hideSpinner = function(){
+let hideSpinner = function () {
   document.getElementById("spinner-wrapper").style.display = "none";
 }
 
-let getJSONData = function(url){
-    let result = {};
-    showSpinner();
-    return fetch(url)
+let getJSONData = function (url) {
+  let result = {};
+  showSpinner();
+  return fetch(url)
     .then(response => {
       if (response.ok) {
         return response.json();
-      }else{
+      } else {
         throw Error(response.statusText);
       }
     })
-    .then(function(response) {
-          result.status = 'ok';
-          result.data = response;
-          hideSpinner();
-          return result;
+    .then(function (response) {
+      result.status = 'ok';
+      result.data = response;
+      hideSpinner();
+      return result;
     })
-    .catch(function(error) {
-        result.status = 'error';
-        result.data = error;
-        hideSpinner();
-        return result;
+    .catch(function (error) {
+      result.status = 'error';
+      result.data = error;
+      hideSpinner();
+      return result;
     });
 }
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   cargarMenu()
 });
+
+function obtenerCarrito(){
+ let productosCarrito = localStorage.getItem('arrayCarrito')
+ if(productosCarrito == null){
+  productosCarrito = []
+  return productosCarrito
+ }
+ else {
+  return JSON.parse(productosCarrito)
+ }
+}
+
+function guardarCarrito(carrito){
+  localStorage.setItem('arrayCarrito',JSON.stringify(carrito))
+}
+
