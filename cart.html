@@ -46,21 +46,23 @@
       <div id="container-cart" class="">
       </div>
       <div>
-        <form class="needs-validation">
+        <form class="needs-validation" novalidate>
           <div class="row">
             <p class="fs-5 mt-3">Tipo de envío</p>
             <div class="d-block my-3">
               <div class="custom-control custom-radio">
-                <input id="premiumradio" name="publicationType" type="radio" class="custom-control-input" checked=""
-                  required="">
+                <input id="premiumradio" name="tipoEnvio" type="radio" class="custom-control-input" checked=""
+                  required="" value="15">
                 <label class="custom-control-label" for="premiumradio">Premiun 2 a 5 días(15%)</label>
               </div>
               <div class="custom-control custom-radio">
-                <input id="expressradio" name="publicationType" type="radio" class="custom-control-input" required="">
+                <input id="expressradio" name="tipoEnvio" type="radio" class="custom-control-input" required=""
+                  value="7">
                 <label class="custom-control-label" for="expressradio">Express 5 a 8 días(7%)</label>
               </div>
               <div class="custom-control custom-radio">
-                <input id="standardradio" name="publicationType" type="radio" class="custom-control-input" required="">
+                <input id="standardradio" name="tipoEnvio" type="radio" class="custom-control-input" required=""
+                  value="5">
                 <label class="custom-control-label" for="standardradio">Standard 12 a 15 días(5%)</label>
               </div>
             </div>
@@ -69,7 +71,8 @@
           <div class="row">
             <div class="col-md-6 mb-3">
               <label for="productName">Calle</label>
-              <input type="text" class="form-control" id="productName" value="" name="productName">
+              <input type="text" class="form-control" id="productName" value="" name="productName" required>
+
               <div class="invalid-feedback">
                 ingrese direccion
               </div>
@@ -77,6 +80,7 @@
             <div class="col-md-2 mb-3">
               <label for="productName">Número</label>
               <input type="text" class="form-control" id="productName" value="" name="productName">
+
               <div class="invalid-feedback">
                 ingrese numero
               </div>
@@ -85,18 +89,107 @@
           <div class="row">
             <div class="col-md-5 mb-3">
               <label for="productName">Esquina</label>
-              <input type="text" class="form-control" id="productName" value="" name="productName">
+              <input type="text" class="form-control" id="productName" value="" name="productName" required>
+
               <div class="invalid-feedback">
                 ingrese direccion
               </div>
             </div>
           </div>
-      </div>
-      <button class="m-1 btn btn-primary">Confirmar</button>
-      </form> 
-    </div>
 
+          <p class="fs-5 mb-1">Costo</p>
+          <div class="mt-2" id="container-cost">
+          </div>
+          <div class="" id="container-pago">
+          </div>
+
+          <div class="row">
+            <div class="col mt-5 mb-5">
+              <p class="fs-5">Forma de pago</p>
+              <label id="medioDePago">No has seleccionado</label><button type="button" class="btn btn-link btn-sm"
+                data-bs-toggle="modal" data-bs-target="#exampleModal" id=""
+                onclick='habilitacionControlesPopUp()'>Seleccionar</button>
+              <div id='error'></div>
+            </div>
+          </div>
+      </div>
+      <button type="submit" id="botonConfirmar" class="m-1 btn btn-primary" onclick='confirmarCompra()'>Confirmar
+        Compra</button>
+      </form>
+
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Forma de pago</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+              <form class="needs-validation" id="medioDePagoForm" novalidate>
+                <div class="row">
+                  <div class="custom-control custom-radio">
+                    <input onchange='habilitacionControlesPopUp()' id="radioTarjeta" name="tipoPago" type="radio"
+                      class="custom-control-input" checked value="tarjeta">
+                    <label id='labelTarjeta' class="custom-control-label" for="radioTarjeta">Tarjeta de crédito</label>
+                  </div>
+                  <hr class="">
+                  <div class="col-md-6 mb-3">
+                    <label for="numtarjeta">Número tarjeta</label>
+                    <input type="text" class="form-control paymentControl" id="numtarjeta" value="" name="creditCard"
+                      onkeypress='return validaNumericos(event)' required="">
+
+                    <div class="invalid-feedback">
+                      ingrese número de tarjeta
+                    </div>
+                  </div>
+                  <div class="col-md-4 mb-3">
+                    <label for="CodigoSeg">Código Seg.</label>
+                    <input type="text" class="form-control paymentControl" id="codigoSeg" value="" name="creditCard"
+                      minlength="3" maxlength="3" onkeypress='return validaNumericos(event)' required>
+                    <div class="invalid-feedback">
+                      ingrese código de seguridad
+                    </div>
+
+                  </div>
+                  <div class="col-md-5 mb-3">
+                    <label for="vencimiento">Vencimiento (MM/AA)</label>
+                    <input type="text" class="form-control paymentControl" id="vencimiento" value="" name="creditCard"
+                      onkeypress='return validaNumericos(event)' required>
+
+                    <div class="invalid-feedback">
+                      ingrese código de seguridad
+                    </div>
+                  </div>
+                  <div class="custom-control custom-radio">
+                    <input onchange='habilitacionControlesPopUp()' id="radioCuentaBancaria" name="tipoPago" type="radio"
+                      class="custom-control-input" value='banco'>
+                    <label id='labelBanco' class="custom-control-label" for="radioCuentaBancaria">Transferencia
+                      Bancaria</label>
+                  </div>
+                  <hr class="">
+                  <div class="col-md-6 mb-3">
+                    <label for="numCuenta">Número de cuenta</label>
+                    <input type="text" class="form-control paymentControl" id="numCuenta" value=""
+                      name="transferenciaBancaria" onkeypress='return validaNumericos(event)' required="">
+
+                    <div class="invalid-feedback">
+                      ingrese número de cuenta
+                    </div>
+                  </div>
+                  <div class="row right">
+                    <button type="submit" class="m-1 btn btn-primary w-25" onclick='validar()'>guardar</button>
+                  </div>
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div id="container-message"></div>
+    </div>
   </main>
+
   <footer class="text-muted">
     <div class="container">
       <p class="float-end">
@@ -107,6 +200,7 @@
       <p>Clickea <a target="_blank" href="Letra.pdf">aquí</a> para descargar la letra del obligatorio.</p>
     </div>
   </footer>
+
   <div id="spinner-wrapper">
     <div class="lds-ring">
       <div></div>
@@ -115,6 +209,7 @@
       <div></div>
     </div>
   </div>
+
   <script src="js/bootstrap.bundle.min.js"></script>
   <script src="js/init.js"></script>
   <script src="js/cart.js"></script>

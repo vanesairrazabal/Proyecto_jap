@@ -6,7 +6,9 @@ const PRODUCT_INFO_COMMENTS_URL = "https://japceibal.github.io/emercado-api/prod
 const CART_INFO_URL = "https://japceibal.github.io/emercado-api/user_cart/";
 const CART_BUY_URL = "https://japceibal.github.io/emercado-api/cart/buy.json";
 const EXT_TYPE = ".json";
-
+const DOLAR = 40
+const PAGO_TARJETA = 'tarjeta';
+const PAGO_BANCO = 'banco';
 let usuario = localStorage.getItem("usuario");
 
 function setProdID(id) {
