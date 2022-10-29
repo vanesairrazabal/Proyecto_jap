@@ -171,6 +171,7 @@ function validar() {
 
     Array.prototype.slice.call(forms).forEach(form => {
         form.addEventListener('submit', function (event) {
+            console.log(form.id)
             event.preventDefault()
             if (!form.checkValidity()) {
                 event.preventDefault()
@@ -265,7 +266,7 @@ function habilitacionControlesPopUp() {
     }
 }
 
-function confirmarCompra(){
+/*function confirmarCompra(){
     let mensaje = ''
     if(validar()){
         getJSONData(CART_BUY_URL).then(function (resultObj) {
@@ -276,6 +277,21 @@ function confirmarCompra(){
         })
     }
     
+}*/
+
+function confirmarCompra() {
+    validar()
+    let formPrincipal = document.getElementById('form1')
+    let mensaje = ""
+    if (formPrincipal.checkValidity() && validarMetodoPago()) {
+        // Debe llamar a la API al endpoint CART_BUY_URL para obtener la respuesta del intento de compra
+        getJSONData(CART_BUY_URL).then(function(resultObj){
+            if (resultObj.status === "ok"){
+                mensaje = resultObj.data.msg;
+                mostrarMensaje(mensaje, true);
+            }
+        })
+    }
 }
 
 function mostrarMensaje(mensaje, permiteCerrar) {
