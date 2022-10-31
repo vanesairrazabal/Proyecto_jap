@@ -37,18 +37,12 @@
   </nav>
   <main>
     <div class="container">
-      <div class="row">
-        <h1 class="center mt-4">Carrito de Compras</h1>
+      <div id="container-cart" class="mt-3 pt-3 pb-3 text-center">
       </div>
-      <div class="row">
-        <h3 class="ms-4 mt-2">Articulos a Comprar</h3>
-      </div>
-      <div id="container-cart" class="">
-      </div>
-      <div>
+      <div id="container-form">
         <form id="form1" class="needs-validation" novalidate>
           <div class="row">
-            <p class="fs-5 mt-3">Tipo de envío</p>
+            <p class="fs-3 mt-4">Tipo de envío</p>
             <div class="d-block my-3">
               <div class="custom-control custom-radio">
                 <input id="premiumradio" name="tipoEnvio" type="radio" class="custom-control-input" checked=""
@@ -67,14 +61,14 @@
               </div>
             </div>
           </div>
-          <p class="fs-5 mt-3">Direccion de envío</p>
+          <p class="fs-3 mt-3">Dirección de envío</p>
           <div class="row">
             <div class="col-md-6 mb-3">
               <label for="productName">Calle</label>
               <input type="text" class="form-control" id="productName" value="" name="productName" required>
 
               <div class="invalid-feedback">
-                ingrese direccion
+                Ingrese dirección
               </div>
             </div>
             <div class="col-md-2 mb-3">
@@ -82,111 +76,123 @@
               <input type="text" class="form-control" id="productName" value="" name="productName">
 
               <div class="invalid-feedback">
-                ingrese numero
+                Ingrese número
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-md-5 mb-3">
+            <div class="col-md-6 mb-3">
               <label for="productName">Esquina</label>
               <input type="text" class="form-control" id="productName" value="" name="productName" required>
 
               <div class="invalid-feedback">
-                ingrese direccion
+                Ingrese esquina
               </div>
             </div>
           </div>
 
-          <p class="fs-5 mb-1">Costo</p>
+          <p class="fs-3 mt-4">Costos</p>
           <div class="mt-2" id="container-cost">
           </div>
           <div class="" id="container-pago">
           </div>
 
-          <div class="row">
-            <div class="col mt-5 mb-5">
-              <p class="fs-5">Forma de pago</p>
-              <label id="medioDePago">No has seleccionado</label><button type="submit" class="btn btn-link btn-sm"
-                data-bs-toggle="modal" data-bs-target="#exampleModal" id=""
-                onclick='habilitacionControlesPopUp()'>Seleccionar</button>
-              <div id='error'></div>
+          <p class="fs-3 mt-5">Forma de Pago</p>
+          <div id="container-payment" class="container containerFormaPago form-control w-25 left ps-3 mb-1">
+            <div class="row">
+              <div class="col selectFormaPago">
+                <label id='medioDePago'></label>
+              </div>
+              <div class="col selectFormaPago">
+                <button id="btnSelectPayment" onclick="desplegarModal()" type="button" class="btn btn-primary btn-sm"
+                  data-bs-toggle="modal" data-bs-target="#exampleModal">Seleccionar</button>
+              </div>
             </div>
           </div>
+          <div class="col-6 col-sm-3 selectFormaPago invalid-feedback">
+            <label id="mgsError"></label>
+          </div>
+          <button id="btnFinalizarCompra" type="submit" class="btn btn-primary mt-5 w-25" onclick='confirmarCompra()'>Confirmar Compra</button>
+        </form>
       </div>
-      <button type="submit" id="botonConfirmar" class="m-1 btn btn-primary" onclick='confirmarCompra()'>Confirmar
-        Compra</button>
-      </form>
 
-      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">Forma de pago</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      <div id="container-modal">
+        <div class="modal fade" id="exampleModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header bg-dark">
+                <h5 class="modal-title fs-3 fw-bold text-white" id="exampleModalLabel">Forma de pago</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+
+              <div class="modal-body">
+                <form class="needs-validation" id="medioDePagoForm" novalidate>
+                  <div class="d-block my-3">
+                    <div class="custom-control custom-radio">
+                      <input onchange='habilitacionControlesPopUp()' id="radioTarjeta" name="tipoPago" type="radio"
+                        class="custom-control-input" checked value="tarjeta">
+                      <label id='labelTarjeta' class="custom-control-label" for="radioTarjeta">Tarjeta de crédito</label>
+                    </div>
+                    <hr class="mb-4">
+
+                    <div class="row">
+                      <div class="col-md-8 mb-3">
+                        <label for="numtarjeta">Número tarjeta</label>
+                        <input type="text" class="form-control paymentControl" id="numtarjeta" value="" name="creditCard"
+                          onkeypress='return validaNumericos(event)' required minlength="16" maxlength="16">
+                        <div class="invalid-feedback">
+                          Ingrese número de tarjeta
+                        </div>
+                      </div>
+                      <div class="col-md-4 mb-3">
+                        <label for="CodigoSeg">Código Seg.</label>
+                        <input type="text" class="form-control paymentControl" id="codigoSeg" value="" name="creditCard"
+                          minlength="3" maxlength="3" onkeypress='return validaNumericos(event)' required>
+                        <div class="invalid-feedback">
+                          Ingrese código de seguridad
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-5 mb-3">
+                        <label for="vencimiento">Vencimiento (MM/AA)</label>
+                        <input type="text" class="form-control paymentControl" id="vencimiento" value="" name="creditCard" onkeypress='return validaNumericos(event)' required minlength="4" maxlength="4">
+                        <div class="invalid-feedback">
+                          Ingrese fecha de vencimiento
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="custom-control custom-radio mt-5">
+                      <input onchange='habilitacionControlesPopUp()' id="radioCuentaBancaria" name="tipoPago" type="radio"
+                        class="custom-control-input" value='banco'>
+                      <label id='labelBanco' class="custom-control-label" for="radioCuentaBancaria">Transferencia Bancaria</label>
+                    </div>
+                    <hr class="mb-4">
+
+                    <div class="row">
+                      <div class="col-md-6 mb-3">
+                        <label for="numCuenta">Número de cuenta</label>
+                        <input type="text" class="form-control paymentControl" id="numCuenta" value=""
+                          name="transferenciaBancaria" onkeypress='return validaNumericos(event)' required="">
+                        <div class="invalid-feedback">
+                          Ingrese número de cuenta
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="right mt-4">
+                      <button id='btnGuardarDatosModal' onclick='validarFormularioFormaPago()' type="submit" class="btn btn-dark w-25 mt-3">Guardar</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
             </div>
-
-            <div class="modal-body">
-              <form class="needs-validation" id="medioDePagoForm" novalidate>
-                <div class="row">
-                  <div class="custom-control custom-radio">
-                    <input onchange='habilitacionControlesPopUp()' id="radioTarjeta" name="tipoPago" type="radio"
-                      class="custom-control-input" checked value="tarjeta">
-                    <label id='labelTarjeta' class="custom-control-label" for="radioTarjeta">Tarjeta de crédito</label>
-                  </div>
-                  <hr class="">
-                  <div class="col-md-6 mb-3">
-                    <label for="numtarjeta">Número tarjeta</label>
-                    <input type="text" class="form-control paymentControl" id="numtarjeta" value="" name="creditCard"
-                      onkeypress='return validaNumericos(event)' required="">
-
-                    <div class="invalid-feedback">
-                      ingrese número de tarjeta
-                    </div>
-                  </div>
-                  <div class="col-md-4 mb-3">
-                    <label for="CodigoSeg">Código Seg.</label>
-                    <input type="text" class="form-control paymentControl" id="codigoSeg" value="" name="creditCard"
-                      minlength="3" maxlength="3" onkeypress='return validaNumericos(event)' required>
-                    <div class="invalid-feedback">
-                      ingrese código de seguridad
-                    </div>
-
-                  </div>
-                  <div class="col-md-5 mb-3">
-                    <label for="vencimiento">Vencimiento (MM/AA)</label>
-                    <input type="text" class="form-control paymentControl" id="vencimiento" value="" name="creditCard"
-                      onkeypress='return validaNumericos(event)' required>
-
-                    <div class="invalid-feedback">
-                      ingrese fecha de vencimiento
-                    </div>
-                  </div>
-                  <div class="custom-control custom-radio">
-                    <input onchange='habilitacionControlesPopUp()' id="radioCuentaBancaria" name="tipoPago" type="radio"
-                      class="custom-control-input" value='banco'>
-                    <label id='labelBanco' class="custom-control-label" for="radioCuentaBancaria">Transferencia
-                      Bancaria</label>
-                  </div>
-                  <hr class="">
-                  <div class="col-md-6 mb-3">
-                    <label for="numCuenta">Número de cuenta</label>
-                    <input type="text" class="form-control paymentControl" id="numCuenta" value=""
-                      name="transferenciaBancaria" onkeypress='return validaNumericos(event)' required="">
-
-                    <div class="invalid-feedback">
-                      ingrese número de cuenta
-                    </div>
-                  </div>
-                  <div class="row right">
-                    <button  onclick='validar()' type="submit" class="m-1 btn btn-primary w-25">guardar</button>
-                  </div>
-              </form>
-            </div>
-
           </div>
         </div>
       </div>
-      <div id="container-message"></div>
+      <div id="container-message">
+      </div>
     </div>
   </main>
 

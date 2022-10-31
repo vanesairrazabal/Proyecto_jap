@@ -6,10 +6,17 @@ const PRODUCT_INFO_COMMENTS_URL = "https://japceibal.github.io/emercado-api/prod
 const CART_INFO_URL = "https://japceibal.github.io/emercado-api/user_cart/";
 const CART_BUY_URL = "https://japceibal.github.io/emercado-api/cart/buy.json";
 const EXT_TYPE = ".json";
-const DOLAR = 40
+const DOLAR = 40.0
 const PAGO_TARJETA = 'tarjeta';
 const PAGO_BANCO = 'banco';
+const FORMA_PAGO_TARJETA = 'Tarjeta de crédito';
+const FORMA_PAGO_BANCO = 'Transferencia bancaria';
+const FORMA_PAGO_DEFAULT = 'No has seleccionado';
 let usuario = localStorage.getItem("usuario");
+
+if (localStorage.getItem('formaPago') === null) {
+  localStorage.setItem('formaPago', FORMA_PAGO_DEFAULT);
+}
 
 function setProdID(id) {
   localStorage.setItem("prodID", id);
@@ -17,7 +24,7 @@ function setProdID(id) {
 }
 
 function cargarMenu() {
-  console.log('estoy cargando el menú, en teoría!');
+  //console.log('estoy cargando el menú, en teoría!');
   let htmlContentToAppend = `
     <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
     ` + usuario + `
@@ -90,3 +97,10 @@ function guardarCarrito(carrito){
   localStorage.setItem('arrayCarrito',JSON.stringify(carrito))
 }
 
+function vaciarCarrito() {
+  localStorage.removeItem("productsInCart");
+}
+
+function returnHomePage() {
+  window.location = "index1.html"
+}

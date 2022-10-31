@@ -2,11 +2,8 @@ let productosEnCarrito = []
 let idUsuario = localStorage.getItem("usuario")
 let carrito = []
 let subtotalCompra = 0
-let formaPagoSeleccionada = ''
-let nroTarjetaCredito = ''
-let codSeg = ''
-let fechaVenc = ''
-let nroCuentaBancaria = ''
+let objDatosTarjeta = undefined;
+let objDatosTransBancaria = undefined;
 
 // como el usuario actual no se craga en la base de datos, no puede obtenerse desde la API, por lo tanto te se usa el ID provisto en la entrega.
 idUsuario = 25801;
@@ -19,8 +16,26 @@ document.addEventListener("DOMContentLoaded", function (e) {
         }
         addProductUserCart(productosEnCarrito)
     })
-    
+    cargarValidacionForm('form1');
+    cargarFormaPago();
 });
+
+function cargarFormaPago() {
+    document.getElementById('medioDePago').innerText = localStorage.getItem('formaPago');
+}
+
+function cargarValidacionForm(formName) {
+   
+    let form = document.getElementById(formName);
+    form.addEventListener('submit', function(event) {       
+        event.preventDefault();
+        if (!form.checkValidity()) {            
+            event.preventDefault()
+            event.stopPropagation()
+        }
+        form.classList.add('was-validated')
+    }, false)
+}
 
 function eventosTiposEnvios() {
     document.getElementsByName("tipoEnvio").forEach(control => control.onchange = calculoTotales);
@@ -48,92 +63,127 @@ function addProductUserCart(productosEnCarrito) {
 }
 
 function mostrarCarrito(carrito) {
-    let htmlContentToAppend = ""
-    for (let i = 0; i < carrito.length; i++) {
-        let productInCart = carrito[i]
-        //console.log(productInCart)
-        htmlContentToAppend += `
-        <div class="list-group-item list-group-item-action producto">
 
-            <div class="row">
-                <div class="col">
-                </div>
-                <div class="col left">
-                    <h4 class="mb-1 nombre">Nombre</h4>
-                </div>
-                <div class="col left">
-                    <h4 class="mb-1">Costo</h4>
-                </div>
-                <div class="col left">
-                    <h4 class="mb-1">Cantidad</h4>
-                </div>
-                <div class="col left">
-                    <h4 class="mb-1">Subtotal</h4>
-                </div>
-            </div>
-
-            <div class="row">
-                <div onclick="setProdID(${productInCart.id})" class="col cursor-active">
-                    <img src="${productInCart.image}" alt="${productInCart.description}" class="img-thumbnail">
-                </div>
-                <div class="col left">
-                    <h4 class="mb-1 nombre">${productInCart.name}</h4>
-                </div>
-                <div class="col left">
-                    <h4 id="monto"${productInCart.id}" class="mb-1">${productInCart.currency} ${productInCart.unitCost}</h4>
-                </div>
-                <div class="col left">
-                    <input id= "cantidad${productInCart.id}" onchange="cambioCantidad(${productInCart.id})" class="mb-1 w-25" type="number" value="${productInCart.count}" min="1" placeholder=""></input>
-                </div>
-                <div class="col left">
-                    <h4 id="total${productInCart.id}" class="mb-1">${productInCart.currency} ${productInCart.totalAmount}</h4>
-                </div>
-            </div>
-        </div>
-        `
-        document.getElementById("container-cart").innerHTML = htmlContentToAppend;
+    if (carrito === undefined || carrito.length == 0) {
+        ocultarControlesForm();
+        mostrarMensaje('No hay productos en su carrito', false, 'alert-danger');
     }
+    else {
+        let htmlContentToAppend = `     
+            <div class="row">
+                <h3 class="fc-gray fs-1 mb-5">Carrito de Compras</h3>
+            </div>
+            <div class="row">
+                <h3 class="fc-black fs-2 mt-2 mb-3">Articulos a Comprar</h3>
+            </div>
+        `;
+        
+        for (let i = 0; i < carrito.length; i++) {
+            let productInCart = carrito[i]
+            //console.log(productInCart)
+            htmlContentToAppend += `
+            <div class="mt-4 mb-2">
+                <div class="row">
+                    <div class="col ms-3 left">
+                    </div>
+                    <div class="col left">
+                        <h4 class="mb-1 nombre fw-bold">Nombre</h4>
+                    </div>
+                    <div class="col right">
+                        <h4 class="mb-1 fw-bold">Costo</h4>
+                    </div>
+                    <div class="col right">
+                        <h4 class="mb-1 fw-bold">Cantidad</h4>
+                    </div>
+                    <div class="col right">
+                        <h4 class="mb-1 fw-bold">Subtotal</h4>
+                    </div>
+                    <div class="col w-25 center">
+                    </div>
+                </div>
 
-    let htmlContentToAppendCost = `
-    <div class="list-group-item list-group-item-action producto">
-        <div class="row">
-            <div class="col left">
-                 <p class="mb-1 fs-5">Subtotal</p>
+                <div class="row itemCarrito">
+                    <div onclick="setProdID(${productInCart.id})" class="col left cursor-active ms-3">
+                        <img src="${productInCart.image}" alt="${productInCart.description}" class="img-thumbnail">
+                    </div>
+                    <div class="col left">
+                        <h4 class="mb-1 nombre">${productInCart.name}</h4>
+                    </div>
+                    <div class="col right fontCalibri">
+                        <h4 id="monto"${productInCart.id}" class="mb-1">${productInCart.currency} ${productInCart.unitCost}</h4>
+                    </div>
+                    <div class="col right">
+                        <input id= "cantidad${productInCart.id}" onchange="cambioCantidad(${productInCart.id})" class="quantity" type="number" value="${productInCart.count}" min="1" placeholder="" required></input>
+                    </div>
+                    <div class="col right fontCalibri">
+                        <h4 id="total${productInCart.id}" class="mb-1 fw-bold">${productInCart.currency} ${productInCart.totalAmount}</h4>
+                    </div>
+                    <div class="col w-25 center">
+                        <button id="btnBorrarItemCarrito" onclick='deleteProdInCart(${productInCart.id})' type="button" class="btn btn-danger">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                            <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z"></path>
+                        </svg>
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div class="col right">
-                 <p id="subtotal" class="mb-1 fs-5"></p>
-            </div>
-        </div>
-    </div>  
+            `
+            document.getElementById("container-cart").innerHTML = htmlContentToAppend;
+        }
 
-    <div class="list-group-item list-group-item-action producto">
-        <div class="row">
-             <div class="col left">
-                 <p class="mb-1 fs-5">Costo de envío</p>
+        let htmlContentToAppendCost = `
+        <div class="list-group-item producto">
+            <div class="row">
+                <div class="col left">
+                    <p class="mb-1 fs-5">Subtotal</p>
+                </div>
+                <div class="col right fontCalibri">
+                    <p id="subtotal" class="mb-1 fs-5"></p>
+                </div>
             </div>
-            <div class="col right">
-                 <p id="costo-envio" class="mb-1 fs-5"></p>
-            </div>
-        </div>
-    </div>  
+        </div>  
 
-    <div class="list-group-item list-group-item-action producto">
-        <div class="row">
-            <div class="col left">
-                <p class="mb-1 fs-5">Total a pagar</p>
+        <div class="list-group-item producto">
+            <div class="row">
+                <div class="col left">
+                    <p class="mb-1 fs-5">Costo de envío</p>
+                </div>
+                <div class="col right fontCalibri">
+                    <p id="costo-envio" class="mb-1 fs-5"></p>
+                </div>
             </div>
-            <div class="col right">
-                <p id="total-a-pagar" class="mb-1 fs-5"></p>
+        </div>  
+
+        <div class="list-group-item producto">
+            <div class="row">
+                <div class="col left text-success">
+                    <p class="mb-1 fs-5 fw-bold">Total a pagar (USD)</p>
+                </div>
+                <div class="col right fontCalibri text-success">
+                    <p id="total-a-pagar" class="mb-1 fs-5 fw-bold"></p>
+                </div>
             </div>
-        </div>
-    </div>`
+        </div>`
 
-    document.getElementById("container-cost").innerHTML = htmlContentToAppendCost;
-    eventosTiposEnvios()
-    calculoTotales()
-
+        document.getElementById("container-cost").innerHTML = htmlContentToAppendCost;
+        eventosTiposEnvios()
+        calculoTotales()
+    }
 }
 
+function deleteProdInCart(idProducto) {
+    let prod = carrito.find(p => p.id == idProducto);
+    let index = carrito.indexOf(prod);
+    if (carrito.length > 1) {
+        carrito.splice(index, 1);
+    }
+    else {
+        carrito = [];
+    }
+    
+    guardarCarrito(carrito);
+    mostrarCarrito(carrito);
+}
 
 function cambioCantidad(prodID) {
     let cantidad = parseInt(document.getElementById('cantidad' + prodID).value)
@@ -164,37 +214,6 @@ function calculoTotales() {
     document.getElementById('total-a-pagar').innerHTML = 'USD ' + total
 }
 
-
-function validar() {
-    let valida = true
-    const forms = document.querySelectorAll('.needs-validation')
-
-    Array.prototype.slice.call(forms).forEach(form => {
-        form.addEventListener('submit', function (event) {
-            console.log(form.id)
-            event.preventDefault()
-            if (!form.checkValidity()) {
-                event.preventDefault()
-                event.stopPropagation()
-                valida = false
-            }
-            else {
-                nroTarjetaCredito = document.getElementById("numtarjeta").value;
-                codSeg = document.getElementById("codigoSeg").value;
-                fechaVenc = document.getElementById("vencimiento").value;
-                nroCuentaBancaria = document.getElementById("numCuenta").value;
-                if (formaPagoSeleccionada !== '') {
-                    document.getElementById('medioDePago').innerText = formaPagoSeleccionada;
-                }
-            }
-            validarMetodoPago()
-            form.classList.add('was-validated')
-        }, false)
-        
-    })
-    return valida
-}
-
 function validaNumericos(event) {
     if(event.charCode >= 48 && event.charCode <= 57){
       return true;
@@ -203,38 +222,48 @@ function validaNumericos(event) {
 }
 
 function validarMetodoPago(){
-
+    let panel = document.getElementById('container-payment');
     let eleccionDePago = document.getElementById('medioDePago').innerText
-    console.log(eleccionDePago)
-    let errorMedioDePago = 'Debes seleccionar la forma de pago'
-    let error= document.getElementById('error')
-    
+    let errorMedioDePago = 'Debe seleccionar una forma de pago'
+    let error = document.getElementById('mgsError')
 
     if(eleccionDePago === "No has seleccionado") {
-
         error.style.color = 'red';
-        error.innerHTML = '<p>' + errorMedioDePago + '</p>'
+        panel.style.borderColor = 'red';
+        error.innerHTML = errorMedioDePago
+        return false;
     }
     else {
-        error.innerHTML = '<p>' + '' + '</p>'
+        panel.style.borderColor = 'gray';
+        error.innerHTML = ''
+        return true;
     }
 }
 
 function obtenerTipoPagoSeleccionado() {
-    // Obtener el tipo de pago desde el value de los controles con name = tipopago 
-    let seleccion = Array.from(
+    // Obtener el tipo de pago desde el value de los controles con name = tipoPago
+    let formaPagoSeleccionada;
+    let seleccion = '';
+    let radioChecked = Array.from(
         document.getElementsByName("tipoPago")
-    ).filter((radio) => radio.checked == true)[0].value;
+    ).filter((radio) => radio.checked == true)[0];
 
-    if (seleccion === 'tarjeta') {
+    if (radioChecked !== undefined) {
+        seleccion = radioChecked.value;
+    }
+
+    if (seleccion === PAGO_TARJETA) {
         formaPagoSeleccionada = 'Tarjeta de crédito';
     }
-    else {
+    else if (seleccion === PAGO_BANCO){
         formaPagoSeleccionada = 'Transferencia bancaria';
     }
+    else {
+        formaPagoSeleccionada = 'No has seleccionado';
+    }
+    localStorage.setItem('formaPago', formaPagoSeleccionada);
     return seleccion;
 }
-
 
 function habilitacionControlesPopUp() {
     let formaPago = obtenerTipoPagoSeleccionado();
@@ -251,7 +280,7 @@ function habilitacionControlesPopUp() {
             }
         });
     }
-    else {
+    else if (formaPago === PAGO_BANCO) {
         // Habilito los controles para la carga de datos de transferencia bancaria y deshabilito los de tarjeta de crédito
         Array.from(
             document.getElementsByClassName("paymentControl")
@@ -266,24 +295,13 @@ function habilitacionControlesPopUp() {
     }
 }
 
-/*function confirmarCompra(){
-    let mensaje = ''
-    if(validar()){
-        getJSONData(CART_BUY_URL).then(function (resultObj) {
-            if (resultObj.status === "ok") {
-                mensaje = resultObj.data.msg;
-                mostrarMensaje(mensaje,true)
-            }
-        })
-    }
-    
-}*/
-
 function confirmarCompra() {
-    validar()
     let formPrincipal = document.getElementById('form1')
     let mensaje = ""
-    if (formPrincipal.checkValidity() && validarMetodoPago()) {
+    if (validarMetodoPago() && formPrincipal.checkValidity()) {
+        // Como la compra fue confirmada vacío el carrito y oculto los controles del form
+        vaciarCarrito();
+        ocultarControlesForm();
         // Debe llamar a la API al endpoint CART_BUY_URL para obtener la respuesta del intento de compra
         getJSONData(CART_BUY_URL).then(function(resultObj){
             if (resultObj.status === "ok"){
@@ -300,7 +318,7 @@ function mostrarMensaje(mensaje, permiteCerrar) {
     if(permiteCerrar) {
         htmlMensaje = `
             <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <button id='btnCierreModal' type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 <p></p>
                 <h4 class="alert-heading">${mensaje}</h4>
                 <p></p>
@@ -320,5 +338,79 @@ function mostrarMensaje(mensaje, permiteCerrar) {
     }
     
     document.getElementById("container-message").innerHTML = htmlMensaje;
+    if (permiteCerrar) {
+        document.getElementById("btnCierreModal").addEventListener('click', returnHomePage); 
+    }
 }
 
+function desplegarModal() {
+    cargarValidacionForm('medioDePagoForm');
+    cargarDatosFormaPago();
+    habilitacionControlesPopUp();
+}
+
+function cargarDatosFormaPago() {
+    let formaPago = localStorage.getItem('formaPago');
+    if (formaPago === FORMA_PAGO_TARJETA) {
+        document.getElementById('radioTarjeta').checked = true;
+        let datosTarjeta = JSON.parse(localStorage.getItem('objDatosTarjeta'));
+        if(datosTarjeta !== null) {
+            document.getElementById("numtarjeta").value = datosTarjeta.nroTarjetaCredito;
+            document.getElementById("codigoSeg").value = datosTarjeta.codSeg;
+            document.getElementById("vencimiento").value = datosTarjeta.fechaVenc;
+            document.getElementById("numCuenta").value = '';
+        }
+    }
+    else if (formaPago === FORMA_PAGO_BANCO){
+        document.getElementById('radioCuentaBancaria').checked = true;
+        let datosBanco = JSON.parse(localStorage.getItem('objDatosTransBancaria'));
+        if(datosBanco !== null) {
+            document.getElementById("numtarjeta").value = '';
+            document.getElementById("codigoSeg").value = '';
+            document.getElementById("vencimiento").value = '';
+            document.getElementById("numCuenta").value = datosBanco.nroCuentaBancaria;
+        }
+    }
+}
+
+function validarFormularioFormaPago() {
+    
+    let formModal = document.getElementById('medioDePagoForm');
+    let btnGuardar = document.getElementById('btnGuardarDatosModal');
+    
+    if (formModal.checkValidity()) {            
+        let formaPago = localStorage.getItem('formaPago');
+        if (formaPago === FORMA_PAGO_TARJETA) {
+            objDatosTarjeta = {
+                nroTarjetaCredito : document.getElementById("numtarjeta").value,
+                codSeg : document.getElementById("codigoSeg").value,
+                fechaVenc : document.getElementById("vencimiento").value
+            }
+            localStorage.setItem('objDatosTarjeta', JSON.stringify(objDatosTarjeta));
+        }
+        else if (formaPago === FORMA_PAGO_BANCO){
+            objDatosTransBancaria = {
+                nroCuentaBancaria : document.getElementById("numCuenta").value
+            }
+            localStorage.setItem('objDatosTransBancaria', JSON.stringify(objDatosTransBancaria));
+        }
+        document.getElementById('medioDePago').innerText = formaPago;
+        const att = document.createAttribute("data-bs-dismiss");
+        att.value = "modal";
+        btnGuardar.setAttributeNode(att);
+        validarMetodoPago();
+    }
+    else {
+        const attr = btnGuardar.getAttributeNode("data-bs-dismiss");
+        if (attr !== null) {
+            btnGuardar.removeAttributeNode(attr);
+        }
+    }
+    btnGuardar.dispatchEvent(new Event('onsubmit'));
+}
+
+function ocultarControlesForm() {
+    document.getElementById("container-cart").innerHTML = '';
+    document.getElementById("container-cost").innerHTML = '';
+    document.getElementById("container-form").innerHTML = '';
+}
