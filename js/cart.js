@@ -376,7 +376,6 @@ function cargarDatosFormaPago() {
 function validarFormularioFormaPago() {
     
     let formModal = document.getElementById('medioDePagoForm');
-    let btnGuardar = document.getElementById('btnGuardarDatosModal');
     
     if (formModal.checkValidity()) {            
         let formaPago = localStorage.getItem('formaPago');
@@ -395,18 +394,9 @@ function validarFormularioFormaPago() {
             localStorage.setItem('objDatosTransBancaria', JSON.stringify(objDatosTransBancaria));
         }
         document.getElementById('medioDePago').innerText = formaPago;
-        const att = document.createAttribute("data-bs-dismiss");
-        att.value = "modal";
-        btnGuardar.setAttributeNode(att);
         validarMetodoPago();
+        document.getElementById('btnCerrarModal').click()
     }
-    else {
-        const attr = btnGuardar.getAttributeNode("data-bs-dismiss");
-        if (attr !== null) {
-            btnGuardar.removeAttributeNode(attr);
-        }
-    }
-    btnGuardar.dispatchEvent(new Event('onsubmit'));
 }
 
 function ocultarControlesForm() {

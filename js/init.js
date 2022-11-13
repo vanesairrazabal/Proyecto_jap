@@ -12,7 +12,9 @@ const PAGO_BANCO = 'banco';
 const FORMA_PAGO_TARJETA = 'Tarjeta de crédito';
 const FORMA_PAGO_BANCO = 'Transferencia bancaria';
 const FORMA_PAGO_DEFAULT = 'No has seleccionado';
+
 let usuario = localStorage.getItem("usuario");
+
 
 if (localStorage.getItem('formaPago') === null) {
   localStorage.setItem('formaPago', FORMA_PAGO_DEFAULT);
@@ -26,7 +28,7 @@ function setProdID(id) {
 function cargarMenu() {
   //console.log('estoy cargando el menú, en teoría!');
   let htmlContentToAppend = `
-    <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+    <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"> 
     ` + usuario + `
     </button>
     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
@@ -40,8 +42,8 @@ function cargarMenu() {
 }
 
 function cerrar() {
-  //localStorage.removeItem("usuario")
-  localStorage.clear();
+  localStorage.removeItem("usuario")
+  //localStorage.clear();
   window.location.href = 'index.html'
 }
 
@@ -82,19 +84,19 @@ document.addEventListener("DOMContentLoaded", function () {
   cargarMenu()
 });
 
-function obtenerCarrito(){
- let productosCarrito = localStorage.getItem('arrayCarrito')
- if(productosCarrito == null){
-  productosCarrito = []
-  return productosCarrito
- }
- else {
-  return JSON.parse(productosCarrito)
- }
+function obtenerCarrito() {
+  let productosCarrito = localStorage.getItem('arrayCarrito')
+  if (productosCarrito == null) {
+    productosCarrito = []
+    return productosCarrito
+  }
+  else {
+    return JSON.parse(productosCarrito)
+  }
 }
 
-function guardarCarrito(carrito){
-  localStorage.setItem('arrayCarrito',JSON.stringify(carrito))
+function guardarCarrito(carrito) {
+  localStorage.setItem('arrayCarrito', JSON.stringify(carrito))
 }
 
 function vaciarCarrito() {

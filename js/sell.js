@@ -74,7 +74,6 @@ document.addEventListener("DOMContentLoaded", function(e){
     };
     let myDropzone = new Dropzone("div#file-upload", dzoptions);    
 
-
     //Se obtiene el formulario de publicación de producto
     let sellForm = document.getElementById("sell-info");
 

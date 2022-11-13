@@ -692,3 +692,23 @@ input[type="radio"]:checked~label {
   border-radius: 5px;
   padding-top: 5px;
 }
+
+.imgProfile {
+  max-width: 200px;
+  max-height: 200px;
+  min-width: 200px;
+  min-height: 200px;
+  border: 0px solid rgb(110, 117, 125);
+  box-shadow: 5px 5px 15px #bebebe, 0px 0px 5px #b7b7b7;
+}
+
+.dropzoneDiv {
+  max-width: 200px;
+  max-height: 200px;
+  min-width: 200px;
+  min-height: 200px;
+}
+
+.btnMostrarDropzone {
+  width: 150px;
+}
